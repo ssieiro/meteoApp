@@ -4,13 +4,12 @@ import io.soniasieiro.meteoapp.Utils
 import io.soniasieiro.meteoapp.data.Models.ResponseModels.HourlyItem
 import io.soniasieiro.meteoapp.data.Models.ResponseModels.WeatherResponse
 import java.io.Serializable
-import java.util.*
 import kotlin.math.roundToInt
 
 data class Forecast(
     val lat: String = "",
     val lon: String = "",
-    val forecastByHours: List<HourForecast>? = null
+    val forecastByHours: List<ForecastHour>? = null
 ): Serializable {
     companion object {
         var utils = Utils()
@@ -18,7 +17,7 @@ data class Forecast(
             val maxHours = 12
             var currentHours = 0
             val hourForecast = response.hourly!!
-            var hours = mutableListOf<HourForecast>()
+            var hours = mutableListOf<ForecastHour>()
 
             //add the first 13 elements
 
@@ -42,12 +41,12 @@ data class Forecast(
         }
 
 
-        fun parseHour(hour: HourlyItem?): HourForecast {
+        fun parseHour(hour: HourlyItem?): ForecastHour {
             var parsedHour = utils.getDate(hour?.dt?.toLong())
             var icon = hour?.weather?.get(0)?.icon
-            return HourForecast (
+            return ForecastHour (
                 temperature = hour?.temp?.roundToInt() ?: 0,
-                hour = parsedHour,
+                hour = "${parsedHour}h",
                 icon = "http://openweathermap.org/img/wn/${icon}@2x.png"
             )
         }

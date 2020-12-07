@@ -1,6 +1,6 @@
 package io.soniasieiro.meteoapp.data.Models.AppModels
 
-data class HourForecast (
+data class ForecastHour (
     val hour: String = "",
     val temperature: Int = 0,
     val icon: String = ""

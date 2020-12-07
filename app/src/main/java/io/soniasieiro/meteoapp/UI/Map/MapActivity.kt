@@ -2,6 +2,10 @@ package io.soniasieiro.meteoapp.UI.Map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,13 +13,25 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import io.soniasieiro.meteoapp.CustomViewModelFactory
 import io.soniasieiro.meteoapp.R
+import io.soniasieiro.meteoapp.data.LAT
+import io.soniasieiro.meteoapp.data.LON
 import io.soniasieiro.meteoapp.data.MeteoAppService
+import io.soniasieiro.meteoapp.data.Models.AppModels.ForecastHour
+import kotlinx.android.synthetic.main.maps_activity.*
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     var apiService = MeteoAppService()
+    private var forecastHourList: List<ForecastHour>? = null
+    private var forecastAdapter: ForecastAdapter? = null
+
+    private val mViewModel: MapViewModel by lazy {
+        val factory = CustomViewModelFactory(application)
+        ViewModelProvider(this, factory).get(MapViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +61,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-    fun init() {
-        //var forecast = apiService.getForecast(LAT, LON)
-        //print(forecast)
+    private fun init() {
+        forecastList.layoutManager = LinearLayoutManager(this)
+        val forecast = apiService.getForecast(LAT, LON)
+        forecastHourList = forecast.forecastByHours
+        forecastAdapter = ForecastAdapter(applicationContext, forecastHourList)
+        forecastList.adapter = forecastAdapter
+
+
+
     }
 }
