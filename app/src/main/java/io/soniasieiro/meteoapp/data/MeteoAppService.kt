@@ -7,7 +7,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 import com.google.gson.Gson
 import io.soniasieiro.meteoapp.data.Models.AppModels.Forecast
-import io.soniasieiro.meteoapp.data.Models.AppModels.HourForecast
 import io.soniasieiro.meteoapp.data.Models.ResponseModels.WeatherResponse
 
 const val LAT = "40.385739727777704"
