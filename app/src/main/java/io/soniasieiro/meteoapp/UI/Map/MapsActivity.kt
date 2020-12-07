@@ -1,4 +1,4 @@
-package io.soniasieiro.meteoapp
+package io.soniasieiro.meteoapp.UI.Map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,18 +9,22 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import io.soniasieiro.meteoapp.R
+import io.soniasieiro.meteoapp.data.MeteoAppService
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    var apiService = MeteoAppService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.maps_activity)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        init()
     }
 
     /**
@@ -39,5 +43,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    fun init() {
+        //var forecast = apiService.getForecast(LAT, LON)
+        //print(forecast)
     }
 }
