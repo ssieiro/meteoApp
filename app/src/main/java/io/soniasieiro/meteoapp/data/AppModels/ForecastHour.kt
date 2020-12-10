@@ -1,4 +1,4 @@
-package io.soniasieiro.meteoapp.data.Models.AppModels
+package io.soniasieiro.meteoapp.data.AppModels
 
 data class ForecastHour (
     val hour: String = "",

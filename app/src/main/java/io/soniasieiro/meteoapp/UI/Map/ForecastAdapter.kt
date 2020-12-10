@@ -1,14 +1,13 @@
 package io.soniasieiro.meteoapp.UI.Map
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.soniasieiro.meteoapp.R
-import io.soniasieiro.meteoapp.data.Models.AppModels.ForecastHour
+import io.soniasieiro.meteoapp.data.AppModels.ForecastHour
 import kotlinx.android.synthetic.main.item_forecast_hour.view.*
 
 class ForecastAdapter(private val context: Context, private val forecastHourList: List<ForecastHour>?): RecyclerView.Adapter<ForecastAdapter.ForecastHolder>() {
