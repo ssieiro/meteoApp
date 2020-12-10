@@ -2,45 +2,36 @@ package io.soniasieiro.meteoapp.UI.Map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import io.soniasieiro.meteoapp.CustomViewModelFactory
 import io.soniasieiro.meteoapp.R
-import io.soniasieiro.meteoapp.data.LAT
-import io.soniasieiro.meteoapp.data.LON
-import io.soniasieiro.meteoapp.data.MeteoAppService
-import io.soniasieiro.meteoapp.data.Models.AppModels.ForecastHour
+import io.soniasieiro.meteoapp.data.AppModels.Forecast
+import io.soniasieiro.meteoapp.data.AppModels.ForecastHour
 import kotlinx.android.synthetic.main.maps_activity.*
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegate {
 
     private lateinit var mMap: GoogleMap
-    var apiService = MeteoAppService()
     private var forecastHourList: List<ForecastHour>? = null
     private var forecastAdapter: ForecastAdapter? = null
+    private var lastLocation: LatLng? = null
+    private var mViewModel = MapViewModel(this@MapActivity)
 
-    private val mViewModel: MapViewModel by lazy {
-        val factory = CustomViewModelFactory(application)
-        ViewModelProvider(this, factory).get(MapViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         init()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mViewModel.askForLocationPermissions(this@MapActivity)
     }
 
     /**
@@ -54,21 +45,38 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.setOnMapClickListener {
+            this.lastLocation = it
+            onMapClicked(it)
+        }
     }
 
     private fun init() {
         forecastList.layoutManager = LinearLayoutManager(this)
-        val forecast = apiService.getForecast(LAT, LON)
+
+    }
+
+    override fun forecastObtained(forecast: Forecast, location: LatLng) {
         forecastHourList = forecast.forecastByHours
+        refresh()
+        this.lastLocation = location
+        lastLocation?.let {
+           mMap.addMarker(MarkerOptions().position(it).title("myLocation"))
+           mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10.0f))
+       }
+    }
+
+    fun refresh(){
         forecastAdapter = ForecastAdapter(applicationContext, forecastHourList)
         forecastList.adapter = forecastAdapter
+        forecastAdapter!!.notifyDataSetChanged()
+    }
 
-
-
+    private fun onMapClicked(location: LatLng){
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(location).title("myLocation"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10.0f))
+        mViewModel.getForecast(location)
     }
 }

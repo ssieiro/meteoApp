@@ -1,4 +1,4 @@
-package io.soniasieiro.meteoapp.data
+package io.soniasieiro.meteoapp.network
 
 import android.os.StrictMode
 import java.io.IOException
@@ -6,8 +6,8 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import com.google.gson.Gson
-import io.soniasieiro.meteoapp.data.Models.AppModels.Forecast
-import io.soniasieiro.meteoapp.data.Models.ResponseModels.WeatherResponse
+import io.soniasieiro.meteoapp.data.AppModels.Forecast
+import io.soniasieiro.meteoapp.data.ResponseModels.WeatherResponse
 
 const val LAT = "40.385739727777704"
 const val LON = "-3.642704890032998"
@@ -24,7 +24,7 @@ class MeteoAppService {
     }
 
     private fun getUrl (lat: String, lon: String, units: String, exclude: String): String {
-        return "https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}&exclude=${exclude}"
+        return "https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=$API_KEY&units=${units}&exclude=${exclude}"
     }
 
     @Throws(IOException::class)

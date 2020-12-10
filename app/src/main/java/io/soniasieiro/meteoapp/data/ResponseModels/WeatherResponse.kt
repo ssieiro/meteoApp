@@ -1,4 +1,4 @@
-package io.soniasieiro.meteoapp.data.Models.ResponseModels
+package io.soniasieiro.meteoapp.data.ResponseModels
 
 import com.google.gson.annotations.SerializedName
 

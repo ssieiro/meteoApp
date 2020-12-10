@@ -1,8 +1,9 @@
-package io.soniasieiro.meteoapp.data.Models.AppModels
+package io.soniasieiro.meteoapp.data.AppModels
 
-import io.soniasieiro.meteoapp.Utils
-import io.soniasieiro.meteoapp.data.Models.ResponseModels.HourlyItem
-import io.soniasieiro.meteoapp.data.Models.ResponseModels.WeatherResponse
+import io.soniasieiro.meteoapp.commons.Utils
+import io.soniasieiro.meteoapp.commons.getDate
+import io.soniasieiro.meteoapp.data.ResponseModels.HourlyItem
+import io.soniasieiro.meteoapp.data.ResponseModels.WeatherResponse
 import java.io.Serializable
 import kotlin.math.roundToInt
 
@@ -12,7 +13,6 @@ data class Forecast(
     val forecastByHours: List<ForecastHour>? = null
 ): Serializable {
     companion object {
-        var utils = Utils()
         fun parseForecast(response: WeatherResponse): Forecast {
             val maxHours = 12
             var currentHours = 0
@@ -42,7 +42,7 @@ data class Forecast(
 
 
         fun parseHour(hour: HourlyItem?): ForecastHour {
-            var parsedHour = utils.getDate(hour?.dt?.toLong())
+            var parsedHour = getDate(hour?.dt?.toLong())
             var icon = hour?.weather?.get(0)?.icon
             return ForecastHour (
                 temperature = hour?.temp?.roundToInt() ?: 0,
