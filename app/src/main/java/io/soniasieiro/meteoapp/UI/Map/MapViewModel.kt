@@ -1,15 +1,19 @@
 package io.soniasieiro.meteoapp.UI.Map
 
+import android.Manifest
 import android.content.Context
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.google.android.gms.maps.model.LatLng
 import io.soniasieiro.meteoapp.network.MeteoAppService
 import io.soniasieiro.meteoapp.network.UserLocation
+import io.soniasieiro.meteoapp.network.UserLocation.Companion.REQUEST_PERMISSIONS_REQUEST_CODE
 
 class MapViewModel(private val context: Context) {
 
     private var mapViewModelDelegate: MapViewModelDelegate? = null
     private lateinit var location: LatLng
     var apiService = MeteoAppService()
+    val managerUserLocation = UserLocation()
 
     init {
 
@@ -20,18 +24,17 @@ class MapViewModel(private val context: Context) {
     }
 
     fun askForLocationPermissions(activity: MapActivity) {
-        val managerUserLocation = UserLocation()
         if (managerUserLocation.checkPermissions(activity)) {
-            managerUserLocation.getLocation(activity) { location ->
-                this.location = LatLng(location.latitude, location.longitude)
-                getForecast(this.location)
-            }
-
+                getLocation(activity)
         } else {
             managerUserLocation.requestPermissions(activity)
-            // refactor to capture when the user gives the permissions
-            askForLocationPermissions(activity)
         }
+    }
+
+    fun getLocation(activity: MapActivity) {
+        managerUserLocation.getLocation(activity) { location ->
+            this.location = LatLng(location.latitude, location.longitude)
+            getForecast(this.location)}
     }
 
     fun getForecast(location: LatLng) {

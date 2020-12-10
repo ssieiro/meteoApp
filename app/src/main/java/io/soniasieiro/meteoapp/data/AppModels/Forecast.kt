@@ -1,6 +1,5 @@
 package io.soniasieiro.meteoapp.data.AppModels
 
-import io.soniasieiro.meteoapp.commons.Utils
 import io.soniasieiro.meteoapp.commons.getDate
 import io.soniasieiro.meteoapp.data.ResponseModels.HourlyItem
 import io.soniasieiro.meteoapp.data.ResponseModels.WeatherResponse

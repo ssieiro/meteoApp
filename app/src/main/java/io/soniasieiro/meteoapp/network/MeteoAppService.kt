@@ -9,8 +9,6 @@ import com.google.gson.Gson
 import io.soniasieiro.meteoapp.data.AppModels.Forecast
 import io.soniasieiro.meteoapp.data.ResponseModels.WeatherResponse
 
-const val LAT = "40.385739727777704"
-const val LON = "-3.642704890032998"
 const val API_KEY = "2efe82c429bd6078d27b0bbe2165137b"
 
 class MeteoAppService {

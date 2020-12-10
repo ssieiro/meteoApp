@@ -2,6 +2,8 @@ package io.soniasieiro.meteoapp.UI.Map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -9,6 +11,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import io.soniasieiro.meteoapp.R
 import io.soniasieiro.meteoapp.data.AppModels.Forecast
 import io.soniasieiro.meteoapp.data.AppModels.ForecastHour
+import io.soniasieiro.meteoapp.network.UserLocation.Companion.REQUEST_PERMISSIONS_REQUEST_CODE
 import kotlinx.android.synthetic.main.maps_activity.*
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegate {
@@ -34,15 +37,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegat
         mViewModel.askForLocationPermissions(this@MapActivity)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
@@ -51,6 +46,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegat
             onMapClicked(it)
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE && grantResults[0] == 0){
+            mViewModel.getLocation(this@MapActivity)
+        }
+    }
+
 
     private fun init() {
         forecastList.layoutManager = LinearLayoutManager(this)

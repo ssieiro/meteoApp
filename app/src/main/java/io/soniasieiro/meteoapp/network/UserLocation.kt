@@ -23,7 +23,7 @@ class UserLocation {
         return permissionState == PackageManager.PERMISSION_GRANTED
     }
 
-    fun requestPermissions(activity: Activity) {
+    fun requestPermissions(activity: Activity){
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)
         if (shouldProvideRationale) showSnackbar(activity, R.string.permission_rationale, android.R.string.ok) {
             ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSIONS_REQUEST_CODE)
