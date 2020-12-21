@@ -1,18 +1,17 @@
 package io.soniasieiro.meteoapp.UI.Map
 
-import android.Manifest
 import android.content.Context
-import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.google.android.gms.maps.model.LatLng
-import io.soniasieiro.meteoapp.network.MeteoAppService
-import io.soniasieiro.meteoapp.network.UserLocation
-import io.soniasieiro.meteoapp.network.UserLocation.Companion.REQUEST_PERMISSIONS_REQUEST_CODE
+import io.soniasieiro.meteoapp.apiclient.ApiClientFactory
+import io.soniasieiro.meteoapp.apiclient.ApiService
+import io.soniasieiro.meteoapp.apiclient.openweather.OpenWeatherImpl
+import io.soniasieiro.meteoapp.managers.UserLocation
 
 class MapViewModel(private val context: Context) {
 
     private var mapViewModelDelegate: MapViewModelDelegate? = null
     private lateinit var location: LatLng
-    var apiService = MeteoAppService()
+    var apiService: ApiService = ApiClientFactory.getInstance()
     val managerUserLocation = UserLocation()
 
     init {
