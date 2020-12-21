@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.soniasieiro.meteoapp.R
-import io.soniasieiro.meteoapp.data.AppModels.ForecastHour
+import io.soniasieiro.meteoapp.datamodels.ForecastHour
 import kotlinx.android.synthetic.main.item_forecast_hour.view.*
 
 class ForecastAdapter(private val context: Context, private val forecastHourList: List<ForecastHour>?): RecyclerView.Adapter<ForecastAdapter.ForecastHolder>() {

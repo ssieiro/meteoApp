@@ -1,67 +1,67 @@
-package io.soniasieiro.meteoapp.data.ResponseModels
+package io.soniasieiro.meteoapp.apiclient.openweather
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherResponse(
+data class OpenWeatherResponse(
 
-	@field:SerializedName("timezone")
+		@field:SerializedName("timezone")
 	val timezone: String? = null,
 
-	@field:SerializedName("timezone_offset")
+		@field:SerializedName("timezone_offset")
 	val timezoneOffset: Int? = null,
 
-	@field:SerializedName("lon")
+		@field:SerializedName("lon")
 	val lon: Double? = null,
 
-	@field:SerializedName("hourly")
+		@field:SerializedName("hourly")
 	val hourly: List<HourlyItem?>? = null,
 
-	@field:SerializedName("lat")
+		@field:SerializedName("lat")
 	val lat: Double? = null
 )
 
 data class HourlyItem(
 
-	@field:SerializedName("temp")
+		@field:SerializedName("temp")
 	val temp: Double? = null,
 
-	@field:SerializedName("visibility")
+		@field:SerializedName("visibility")
 	val visibility: Int? = null,
 
-	@field:SerializedName("uvi")
+		@field:SerializedName("uvi")
 	val uvi: Double? = null,
 
-	@field:SerializedName("pressure")
+		@field:SerializedName("pressure")
 	val pressure: Int? = null,
 
-	@field:SerializedName("clouds")
+		@field:SerializedName("clouds")
 	val clouds: Int? = null,
 
-	@field:SerializedName("feels_like")
+		@field:SerializedName("feels_like")
 	val feelsLike: Double? = null,
 
-	@field:SerializedName("dt")
+		@field:SerializedName("dt")
 	val dt: Int? = null,
 
-	@field:SerializedName("pop")
+		@field:SerializedName("pop")
 	val pop: Double? = null,
 
-	@field:SerializedName("wind_deg")
+		@field:SerializedName("wind_deg")
 	val windDeg: Int? = null,
 
-	@field:SerializedName("dew_point")
+		@field:SerializedName("dew_point")
 	val dewPoint: Double? = null,
 
-	@field:SerializedName("weather")
+		@field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
-	@field:SerializedName("humidity")
+		@field:SerializedName("humidity")
 	val humidity: Int? = null,
 
-	@field:SerializedName("wind_speed")
+		@field:SerializedName("wind_speed")
 	val windSpeed: Double? = null,
 
-	@field:SerializedName("rain")
+		@field:SerializedName("rain")
 	val rain: Rain? = null
 )
 

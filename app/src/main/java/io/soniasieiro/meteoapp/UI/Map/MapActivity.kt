@@ -2,16 +2,14 @@ package io.soniasieiro.meteoapp.UI.Map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import io.soniasieiro.meteoapp.R
-import io.soniasieiro.meteoapp.data.AppModels.Forecast
-import io.soniasieiro.meteoapp.data.AppModels.ForecastHour
-import io.soniasieiro.meteoapp.network.UserLocation.Companion.REQUEST_PERMISSIONS_REQUEST_CODE
+import io.soniasieiro.meteoapp.datamodels.Forecast
+import io.soniasieiro.meteoapp.datamodels.ForecastHour
+import io.soniasieiro.meteoapp.managers.UserLocation.Companion.REQUEST_PERMISSIONS_REQUEST_CODE
 import kotlinx.android.synthetic.main.maps_activity.*
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegate {
@@ -66,7 +64,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegat
         this.lastLocation = location
         lastLocation?.let {
            mMap.addMarker(MarkerOptions().position(it).title("myLocation"))
-           mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10.0f))
+           mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 15.0f))
        }
     }
 
@@ -79,7 +77,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, MapViewModelDelegat
     private fun onMapClicked(location: LatLng){
         mMap.clear()
         mMap.addMarker(MarkerOptions().position(location).title("myLocation"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10.0f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f))
         mViewModel.getForecast(location)
     }
 }

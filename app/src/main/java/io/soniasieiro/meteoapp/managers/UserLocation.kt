@@ -1,4 +1,4 @@
-package io.soniasieiro.meteoapp.network
+package io.soniasieiro.meteoapp.managers
 
 import android.Manifest
 import android.annotation.SuppressLint
